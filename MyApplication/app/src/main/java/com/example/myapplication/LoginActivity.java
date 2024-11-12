@@ -1,6 +1,5 @@
 package com.example.myapplication;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +13,7 @@ import com.example.myapplication.entity.User;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextUsername, editTextPassword;
-    private Button buttonLogin;
+    private Button buttonLogin, buttonSignup; // Ajoutez buttonSignup
     private AppDatabase database;
     private SessionManager sessionManager;
 
@@ -26,10 +25,12 @@ public class LoginActivity extends AppCompatActivity {
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
+        buttonSignup = findViewById(R.id.buttonSignup); // Initialisez buttonSignup
 
         database = AppDatabase.getAppDatabase(this);
         sessionManager = new SessionManager(this);
 
+        // Action pour le bouton Login
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -39,25 +40,32 @@ public class LoginActivity extends AppCompatActivity {
                 User user = authenticateUser(username, password);
                 if (user != null) {
                     sessionManager.saveUserSession(user.getId(), user.getRole().toString());
-                    navigateToNextActivity(user.getRole().toString()); // Use role-based redirection
+                    navigateToNextActivity(user.getRole().toString());
                 } else {
                     Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        // Action pour le bouton Signup
+        buttonSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Redirige vers AddUserActivity
+                Intent intent = new Intent(LoginActivity.this, AddUserActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private User authenticateUser(String username, String password) {
         User user = database.userDao().findUserByUsername(username);
 
-        // Vérifier si l'utilisateur existe et si le mot de passe correspond
-        if (user != null && user.getPassword().equals(password)) { // Vérifie dynamiquement le mot de passe de l'utilisateur
+        if (user != null && user.getPassword().equals(password)) {
             return user;
         }
         return null;
     }
-
 
     private void navigateToNextActivity(String role) {
         Intent intent;

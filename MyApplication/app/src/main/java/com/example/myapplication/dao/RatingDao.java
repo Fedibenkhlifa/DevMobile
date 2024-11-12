@@ -3,6 +3,7 @@ package com.example.myapplication.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.myapplication.entity.Rating;
 
@@ -12,7 +13,8 @@ import java.util.List;
 public interface RatingDao {
     @Insert
     void insertRating(Rating rating);
-
+    @Update
+    void updateRating(Rating rating);
     // Get all ratings given to a specific user (ratedUserId)
     @Query("SELECT * FROM rating WHERE ratedUserId = :ratedUserId")
     List<Rating> getRatingsByUserId(int ratedUserId);
@@ -24,4 +26,6 @@ public interface RatingDao {
     // Count the number of ratings for a specific user (ratedUserId)
     @Query("SELECT COUNT(rating) FROM rating WHERE ratedUserId = :ratedUserId")
     int getRatingCountByUserId(int ratedUserId);
+    @Query("SELECT * FROM rating WHERE ratedUserId = :ratedUserId AND raterUserId = :raterUserId")
+    Rating getRatingByUserIds(int ratedUserId, int raterUserId);
 }

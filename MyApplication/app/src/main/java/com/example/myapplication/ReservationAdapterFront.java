@@ -4,13 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Button;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.entity.Reservation;
 import com.example.myapplication.database.AppDatabase;
+import com.example.myapplication.entity.Reservation;
 import com.example.myapplication.entity.ServicePres;
 import com.example.myapplication.entity.User;
 
@@ -63,8 +64,18 @@ public class ReservationAdapterFront extends RecyclerView.Adapter<ReservationAda
         // Set status
         holder.textViewStatus.setText("Statut: " + reservation.getStatus());
 
-        // Handle accept/reject buttons
+        // Set click listener for delete icon
+        holder.iconDeleteReservation.setOnClickListener(v -> {
+            // Delete reservation from database
+            database.reservationDao().deleteReservation(reservation);
 
+            // Remove the item from the list and notify the adapter
+            reservationList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, reservationList.size());
+
+            Toast.makeText(context, "Réservation annulée", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
@@ -74,7 +85,7 @@ public class ReservationAdapterFront extends RecyclerView.Adapter<ReservationAda
 
     public static class ReservationViewHolder extends RecyclerView.ViewHolder {
         TextView textViewServiceName, textViewReservationDate, textViewUserName, textViewStatus;
-        Button buttonAccept, buttonReject;
+        ImageView iconDeleteReservation; // Icon for deleting the reservation
 
         public ReservationViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -82,6 +93,7 @@ public class ReservationAdapterFront extends RecyclerView.Adapter<ReservationAda
             textViewReservationDate = itemView.findViewById(R.id.textViewReservationDate);
             textViewUserName = itemView.findViewById(R.id.textViewUserName);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
-                  }
+            iconDeleteReservation = itemView.findViewById(R.id.iconDeleteReservation); // Link to icon
+        }
     }
 }

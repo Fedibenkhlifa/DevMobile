@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.database.AppDatabase;
+import com.example.myapplication.entity.Comment;
 import com.example.myapplication.entity.Rating;
 import com.example.myapplication.entity.User;
 
@@ -51,7 +52,6 @@ public class DetailsActivity extends AppCompatActivity {
 
         loadUserDetails();
 
-        // Launch AddCommentActivity and pass the userId
         buttonAddComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +65,7 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadUserDetails(); // Reload details including comments
+        loadUserDetails(); // Recharger les détails, y compris les évaluations et commentaires
     }
 
     private void loadUserDetails() {
@@ -74,25 +74,25 @@ public class DetailsActivity extends AppCompatActivity {
             textViewNom.setText(user.getNom());
             textViewPrenom.setText(user.getPrenom());
 
-            // Load user-specific profile image
             String imagePath = user.getImageUri();
             if (imagePath != null && !imagePath.isEmpty()) {
                 Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
                 imageViewProfile.setImageBitmap(bitmap);
             } else {
-                imageViewProfile.setImageResource(android.R.color.transparent); // Leave blank if no image
+                imageViewProfile.setImageResource(android.R.color.transparent);
             }
 
-            // Load average rating and comments
+            // Charger les évaluations pour calculer la moyenne des notes
             List<Rating> ratings = database.ratingDao().getRatingsByUserId(userId);
             float averageRating = database.ratingDao().getAverageRatingByUserId(userId);
             int ratingCount = database.ratingDao().getRatingCountByUserId(userId);
 
             ratingBarAverage.setRating(averageRating);
-            textViewRating.setText(averageRating + " (" + ratingCount + " évaluations)");
+            textViewRating.setText(String.format("%.1f (%d évaluations)", averageRating, ratingCount));
 
-            // Set up the CommentAdapter to display comments with rater's details
-            commentAdapter = new CommentAdapter(this, ratings, database);
+            // Charger les commentaires et configurer le CommentAdapter
+            List<Comment> comments = database.commentDao().getCommentsByUserId(userId);
+            commentAdapter = new CommentAdapter(this, comments, database);
             recyclerViewComments.setAdapter(commentAdapter);
         }
     }

@@ -2,18 +2,18 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.database.AppDatabase;
 import com.example.myapplication.entity.ServicePres;
-import com.example.myapplication.entity.User;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ServiceAdapterPr extends RecyclerView.Adapter<ServiceAdapterPr.Serv
 
     private List<ServicePres> serviceList;
     private Context context;
-    private AppDatabase database; // Database instance to fetch user data
+    private AppDatabase database;
 
     public ServiceAdapterPr(Context context, List<ServicePres> serviceList, AppDatabase database) {
         this.context = context;
@@ -40,29 +40,37 @@ public class ServiceAdapterPr extends RecyclerView.Adapter<ServiceAdapterPr.Serv
     public void onBindViewHolder(@NonNull ServiceViewHolder holder, int position) {
         ServicePres service = serviceList.get(position);
 
-        // Set service details
         holder.textViewServiceName.setText(service.getNom());
         holder.textViewServiceDescription.setText(service.getDescription());
         holder.textViewServicePrice.setText(String.format("$%.2f", service.getPrix()));
 
-        // Fetch and display user data (e.g., profile image) associated with the service
-        User user = database.userDao().getUserById(service.getUserId()); // Get user who created the service
+        // Détails Button
+        holder.buttonServiceDetails.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ServiceDetailsActivity.class);
+            intent.putExtra("serviceId", service.getId());
+            context.startActivity(intent);
+        });
 
-        if (user != null && user.getImageUri() != null && !user.getImageUri().isEmpty()) {
-            holder.imageViewService.setImageURI(Uri.parse(user.getImageUri()));
-        } else {
-            holder.imageViewService.setImageResource(R.drawable.ic_launcher_foreground); // Default image if no URI
-        }
-        // Set up the "Details" button click listener
-        holder.buttonServiceDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ServiceDetailsActivity.class);
-                intent.putExtra("serviceId", service.getId()); // Pass the service ID to the details activity
-                context.startActivity(intent);
+        // Modifier Button
+        holder.buttonEditService.setOnClickListener(v -> {
+            Intent intent = new Intent(context, EditServiceActivity.class);
+            intent.putExtra("serviceId", service.getId());
+
+            // Check if the context is an instance of UserInterfaceActivity to use startActivityForResult
+            if (context instanceof UserInterfaceActivity) {
+                ((UserInterfaceActivity) context).startActivityForResult(intent, 100); // 100 is a request code
             }
         });
 
+
+        // Supprimer Button
+        holder.buttonDeleteService.setOnClickListener(v -> {
+            database.servicePDao().deleteService(service);
+            serviceList.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, serviceList.size());
+            Toast.makeText(context, "Service supprimé", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
@@ -73,16 +81,16 @@ public class ServiceAdapterPr extends RecyclerView.Adapter<ServiceAdapterPr.Serv
     public static class ServiceViewHolder extends RecyclerView.ViewHolder {
         ImageView imageViewService;
         TextView textViewServiceName, textViewServiceDescription, textViewServicePrice;
-        Button buttonServiceDetails;
+        Button buttonServiceDetails, buttonEditService, buttonDeleteService;
 
         public ServiceViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageViewService = itemView.findViewById(R.id.imageViewService);
             textViewServiceName = itemView.findViewById(R.id.textViewServiceName);
             textViewServiceDescription = itemView.findViewById(R.id.textViewServiceDescription);
             textViewServicePrice = itemView.findViewById(R.id.textViewServicePrice);
             buttonServiceDetails = itemView.findViewById(R.id.buttonServiceDetails);
-
+            buttonEditService = itemView.findViewById(R.id.buttonEditService);
+            buttonDeleteService = itemView.findViewById(R.id.buttonDeleteService);
         }
     }
 }

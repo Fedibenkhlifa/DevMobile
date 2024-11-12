@@ -24,4 +24,12 @@
         android:layout_height="wrap_content"
         android:text="Login"
         android:layout_marginTop="16dp"/>
+
+    <!-- Nouveau bouton Signup -->
+    <Button
+        android:id="@+id/buttonSignup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Signup"
+        android:layout_marginTop="8dp"/>
 </LinearLayout>

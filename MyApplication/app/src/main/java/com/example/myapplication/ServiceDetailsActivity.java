@@ -66,7 +66,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         buttonReserveService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reserveService();
+                reserveService(service); // Pass the service object for checking
             }
         });
     }
@@ -88,18 +88,25 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-    private void reserveService() {
+    private void reserveService(ServicePres service) {
         if (textViewReservationDate.getText().equals("Select Reservation Date")) {
             Toast.makeText(this, "Please select a reservation date.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         int userId = sessionManager.getUserId();
+
+        // Vérifier si le prestataire tente de réserver son propre service
+        if (userId == service.getUserId()) {
+            Toast.makeText(this, "Vous ne pouvez pas réserver votre propre service.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Date selectedDate = reservationDate.getTime();
 
         Reservation reservation = new Reservation(serviceId, userId, selectedDate);
         database.reservationDao().insertReservation(reservation);
 
-        Toast.makeText(this, "Service reserved successfully!", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Service réservé avec succès!", Toast.LENGTH_LONG).show();
     }
 }

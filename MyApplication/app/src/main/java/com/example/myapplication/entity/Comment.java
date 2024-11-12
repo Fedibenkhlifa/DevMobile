@@ -3,18 +3,18 @@ package com.example.myapplication.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "rating")
-public class Rating {
+@Entity(tableName = "comment")
+public class Comment {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    private int ratedUserId; // ID of the user being rated
-    private int raterUserId; // ID of the user making the rating
-    private int rating; // Rating score
+    private int ratedUserId; // ID of the user being commented on
+    private int raterUserId; // ID of the user making the comment
+    private String comment; // Comment text
 
-    public Rating(int ratedUserId, int raterUserId, int rating) {
+    public Comment(int ratedUserId, int raterUserId, String comment) {
         this.ratedUserId = ratedUserId;
         this.raterUserId = raterUserId;
-        this.rating = rating;
+        this.comment = comment;
     }
 
     // Getters and Setters
@@ -24,6 +24,6 @@ public class Rating {
     public void setRatedUserId(int ratedUserId) { this.ratedUserId = ratedUserId; }
     public int getRaterUserId() { return raterUserId; }
     public void setRaterUserId(int raterUserId) { this.raterUserId = raterUserId; }
-    public int getRating() { return rating; }
-    public void setRating(int rating) { this.rating = rating; }
+    public String getComment() { return comment; }
+    public void setComment(String comment) { this.comment = comment; }
 }

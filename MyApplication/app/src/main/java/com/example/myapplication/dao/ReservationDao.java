@@ -1,6 +1,7 @@
 package com.example.myapplication.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -15,6 +16,8 @@ public interface ReservationDao {
 
     @Update
     void updateReservation(Reservation reservation);
+    @Delete
+    void deleteReservation(Reservation reservation); // Nouvelle méthode pour supprimer une réservation
 
     @Query("SELECT * FROM reservations WHERE serviceId IN (:serviceIds)")
     List<Reservation> getReservationsByServiceIds(List<Integer> serviceIds);

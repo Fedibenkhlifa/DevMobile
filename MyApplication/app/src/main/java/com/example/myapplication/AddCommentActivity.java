@@ -1,22 +1,21 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.database.AppDatabase;
 import com.example.myapplication.entity.Rating;
+import com.example.myapplication.entity.Comment;
 
 public class AddCommentActivity extends AppCompatActivity {
 
     private RatingBar ratingBar;
     private EditText editTextComment;
-    private Button buttonSubmitComment;
+    private Button buttonSubmitRating, buttonSubmitComment;
     private AppDatabase database;
     private int ratedUserId; // ID of the user being rated
     private SessionManager sessionManager;
@@ -28,38 +27,46 @@ public class AddCommentActivity extends AppCompatActivity {
 
         ratingBar = findViewById(R.id.ratingBar);
         editTextComment = findViewById(R.id.editTextComment);
+        buttonSubmitRating = findViewById(R.id.buttonSubmitRating);
         buttonSubmitComment = findViewById(R.id.buttonSubmitComment);
 
-        ratedUserId = getIntent().getIntExtra("userId", -1); // The user being rated
+        ratedUserId = getIntent().getIntExtra("userId", -1);
         database = AppDatabase.getAppDatabase(getApplicationContext());
         sessionManager = new SessionManager(this);
 
-        buttonSubmitComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitComment();
-            }
-        });
+        buttonSubmitRating.setOnClickListener(v -> submitRating());
+        buttonSubmitComment.setOnClickListener(v -> submitComment());
+    }
+
+    private void submitRating() {
+        int ratingValue = (int) ratingBar.getRating();
+        int raterUserId = sessionManager.getUserId();
+
+        // Vérifier si une note existe déjà pour cet utilisateur
+        Rating existingRating = database.ratingDao().getRatingByUserIds(ratedUserId, raterUserId);
+        if (existingRating != null) {
+            existingRating.setRating(ratingValue);
+            database.ratingDao().updateRating(existingRating);
+            Toast.makeText(this, "Note mise à jour avec succès!", Toast.LENGTH_SHORT).show();
+        } else {
+            Rating newRating = new Rating(ratedUserId, raterUserId, ratingValue);
+            database.ratingDao().insertRating(newRating);
+            Toast.makeText(this, "Note ajoutée avec succès!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void submitComment() {
-        int ratingValue = (int) ratingBar.getRating();
         String commentText = editTextComment.getText().toString().trim();
-
-        if (ratingValue == 0 || commentText.isEmpty()) {
-            Toast.makeText(this, "Veuillez ajouter une note et un commentaire.", Toast.LENGTH_SHORT).show();
+        if (commentText.isEmpty()) {
+            Toast.makeText(this, "Veuillez entrer un commentaire.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Retrieve the raterUserId from SharedPreferences
-        int raterUserId = sessionManager.getUserId(); // ID of the user who is submitting the rating
-
-        Rating rating = new Rating(ratedUserId, raterUserId, ratingValue, commentText);
-        database.ratingDao().insertRating(rating);
+        int raterUserId = sessionManager.getUserId();
+        Comment comment = new Comment(ratedUserId, raterUserId, commentText);
+        database.commentDao().insertComment(comment);
 
         Toast.makeText(this, "Commentaire ajouté avec succès!", Toast.LENGTH_SHORT).show();
-        finish();
+        editTextComment.setText(""); // Clear comment input
     }
-
-
 }

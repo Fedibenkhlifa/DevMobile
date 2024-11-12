@@ -13,19 +13,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.database.AppDatabase;
-import com.example.myapplication.entity.Rating;
+import com.example.myapplication.entity.Comment;
 import com.example.myapplication.entity.User;
 
 import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
-    private List<Rating> ratings;
+    private List<Comment> comments;
     private AppDatabase database;
     private Context context;
 
-    public CommentAdapter(Context context, List<Rating> ratings, AppDatabase database) {
+    public CommentAdapter(Context context, List<Comment> comments, AppDatabase database) {
         this.context = context;
-        this.ratings = ratings;
+        this.comments = comments;
         this.database = database;
     }
 
@@ -38,10 +38,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
-        Rating rating = ratings.get(position);
-        User raterUser = database.userDao().getUserById(rating.getRaterUserId());
+        Comment comment = comments.get(position);
+        User raterUser = database.userDao().getUserById(comment.getRaterUserId());
 
-        holder.textViewComment.setText(rating.getComment());
+        holder.textViewComment.setText(comment.getComment());
 
         if (raterUser != null) {
             holder.textViewRaterName.setText(raterUser.getNom());
@@ -57,7 +57,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     @Override
     public int getItemCount() {
-        return ratings.size();
+        return comments.size();
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {

@@ -1,35 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:numStars="5"
-        android:stepSize="1.0" />
-
-    <Button
-        android:id="@+id/buttonSubmitRating"
+    <EditText
+        android:id="@+id/editTextServiceName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ajouter une note"
-        android:layout_marginTop="16dp" />
+        android:hint="Nom du service" />
 
     <EditText
-        android:id="@+id/editTextComment"
+        android:id="@+id/editTextServiceDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ajouter un commentaire"
-        android:layout_marginTop="16dp" />
+        android:hint="Description du service"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/editTextServicePrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Prix du service"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="8dp" />
 
     <Button
-        android:id="@+id/buttonSubmitComment"
+        android:id="@+id/buttonSaveChanges"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ajouter un commentaire"
+        android:text="Enregistrer les modifications"
         android:layout_marginTop="16dp" />
 </LinearLayout>

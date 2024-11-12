@@ -50,15 +50,14 @@
             android:layout_marginTop="4dp"
             android:textSize="14sp" />
 
-        <!-- Accept and Reject Buttons -->
-        <LinearLayout
+        <!-- Icon for Deleting Reservation -->
+        <ImageView
+            android:id="@+id/iconDeleteReservation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-
-
-        </LinearLayout>
-
+            android:src="@android:drawable/ic_delete"
+            android:layout_marginTop="8dp"
+            android:contentDescription="Delete Reservation Icon"
+            android:tint="@android:color/holo_red_dark"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

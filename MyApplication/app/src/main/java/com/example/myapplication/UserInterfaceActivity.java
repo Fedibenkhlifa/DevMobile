@@ -96,9 +96,11 @@ public class UserInterfaceActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_ADD_SERVICE && resultCode == RESULT_OK) {
+
+        if (requestCode == REQUEST_CODE_ADD_SERVICE && resultCode == RESULT_OK) { // Ensure consistent request code usage
             int userId = sessionManager.getUserId();
-            loadUserServices(userId);
+            loadUserServices(userId); // Reload the list of services to reflect changes
         }
     }
+
 }
