@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Couleurs principales -->
+    <color name="primaryColor">#6200EE</color> <!-- Violet foncé pour les boutons ou l'accent principal -->
+    <color name="primaryLightColor">#BB86FC</color> <!-- Violet clair pour les fonds ou effets secondaires -->
+    <color name="primaryDarkColor">#3700B3</color> <!-- Violet foncé pour les états actifs -->
+
+    <!-- Couleurs de texte -->
+    <color name="black">#FF000000</color>
+    <color name="gray">#FF757575</color> <!-- Gris pour le texte secondaire -->
+    <color name="white">#FFFFFFFF</color>
+    <color name="gray_light">#D3D3D3</color> <!-- You can adjust this hex code for a lighter or darker shade -->
+    <color name="primary">#6200EE</color>
+    <color name="gray_dark">#4A4A4A</color>
+    <color name="errorColor">#B00020</color>
+
+    <!-- Autres couleurs -->
+    <color name="lightGray">#FFDDDDDD</color> <!-- Gris clair pour les fonds -->
+    <color name="backgroundColor">#F5F5F5</color> <!-- Couleur de fond général pour les activités -->
+</resources>

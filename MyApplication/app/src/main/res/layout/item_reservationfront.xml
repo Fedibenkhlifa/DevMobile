@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Service Name -->
+        <TextView
+            android:id="@+id/textViewServiceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nom du service"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Reservation Date -->
+        <TextView
+            android:id="@+id/textViewReservationDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date de réservation"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp" />
+
+        <!-- User Name -->
+        <TextView
+            android:id="@+id/textViewUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Réservé par"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp" />
+
+        <!-- Reservation Status -->
+        <TextView
+            android:id="@+id/textViewStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Statut"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp" />
+
+        <!-- Accept and Reject Buttons -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

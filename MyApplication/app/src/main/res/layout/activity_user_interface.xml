@@ -1,0 +1,91 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#f2f2f2">
+
+  <!-- Section for Buttons: Viewing, Adding Services, Logout, and My Reservations -->
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:gravity="center"
+      android:layout_marginBottom="16dp">
+
+    <!-- First Row: View All Services and Add Service -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginBottom="8dp">
+
+      <Button
+          android:id="@+id/buttonViewAllServices"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:layout_marginEnd="8dp"
+          android:text="Voir tous les services"
+          android:backgroundTint="@color/primaryColor"
+          android:textColor="@android:color/white" />
+
+      <Button
+          android:id="@+id/buttonAddService"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:layout_marginStart="8dp"
+          android:text="Ajouter un service"
+          android:backgroundTint="@color/primaryColor"
+          android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <!-- Second Row: My Reservations and Logout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+      <Button
+          android:id="@+id/buttonMyReservations"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:layout_marginEnd="8dp"
+          android:text="Mes Réservations"
+          android:backgroundTint="@color/primaryColor"
+          android:textColor="@android:color/white" />
+
+      <Button
+          android:id="@+id/buttonLogout"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:layout_marginStart="8dp"
+          android:text="Déconnexion"
+          android:backgroundTint="@color/primaryColor"
+          android:textColor="@android:color/white" />
+    </LinearLayout>
+  </LinearLayout>
+
+  <!-- Divider line for separation -->
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:background="#CCCCCC"
+      android:layout_marginBottom="16dp" />
+
+  <!-- RecyclerView to display the services of the Prestataire -->
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/recyclerViewServices"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:padding="8dp"
+      android:background="@android:color/white"
+      android:clipToPadding="false"
+      android:scrollbars="vertical" />
+</LinearLayout>
