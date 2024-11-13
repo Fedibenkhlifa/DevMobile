@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +16,7 @@ public class AddCommentActivity extends AppCompatActivity {
 
     private RatingBar ratingBar;
     private EditText editTextComment;
-    private Button buttonSubmitRating, buttonSubmitComment;
+    private Button buttonSubmitRating, buttonSubmitComment,buttonBack;
     private AppDatabase database;
     private int ratedUserId; // ID of the user being rated
     private SessionManager sessionManager;
@@ -29,6 +30,7 @@ public class AddCommentActivity extends AppCompatActivity {
         editTextComment = findViewById(R.id.editTextComment);
         buttonSubmitRating = findViewById(R.id.buttonSubmitRating);
         buttonSubmitComment = findViewById(R.id.buttonSubmitComment);
+        buttonBack = findViewById(R.id.buttonBack); // Initialize the back button
 
         ratedUserId = getIntent().getIntExtra("userId", -1);
         database = AppDatabase.getAppDatabase(getApplicationContext());
@@ -36,6 +38,12 @@ public class AddCommentActivity extends AppCompatActivity {
 
         buttonSubmitRating.setOnClickListener(v -> submitRating());
         buttonSubmitComment.setOnClickListener(v -> submitComment());
+        buttonBack.setOnClickListener(v -> {
+            Intent intent = new Intent(AddCommentActivity.this, DetailsActivity.class);
+            intent.putExtra("userId", ratedUserId); // Pass the rated user's ID back
+            startActivity(intent);
+            finish(); // Close the current activity
+        });
     }
 
     private void submitRating() {

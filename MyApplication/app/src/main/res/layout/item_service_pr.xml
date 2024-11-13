@@ -93,7 +93,7 @@
                 android:layout_weight="1"
                 android:minWidth="100dp"
                 android:paddingHorizontal="8dp"
-                android:backgroundTint="#4CAF50"
+                android:backgroundTint="#2A9D8F"
                 android:textColor="#FFFFFF"
                 android:text="Détails" />
 

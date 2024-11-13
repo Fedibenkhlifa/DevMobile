@@ -26,15 +26,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center"
+                android:gravity="start"
                 android:layout_marginBottom="16dp">
 
                 <ImageView
                     android:id="@+id/imageViewUser"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:scaleType="centerCrop"
                     android:layout_marginEnd="16dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_launcher_foreground" />
 
                 <TextView
@@ -149,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Réserver le service"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="#333333"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

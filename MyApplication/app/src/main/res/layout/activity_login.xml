@@ -75,7 +75,7 @@
     <!-- Bouton Login -->
     <Button
         android:id="@+id/buttonLogin"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Login"
         android:backgroundTint="#333333"

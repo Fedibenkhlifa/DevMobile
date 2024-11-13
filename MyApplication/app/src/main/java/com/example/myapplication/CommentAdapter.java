@@ -1,13 +1,14 @@
 package com.example.myapplication;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,11 +23,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private List<Comment> comments;
     private AppDatabase database;
     private Context context;
+    private int loggedInUserId;
 
-    public CommentAdapter(Context context, List<Comment> comments, AppDatabase database) {
+    public CommentAdapter(Context context, List<Comment> comments, AppDatabase database, int loggedInUserId) {
         this.context = context;
         this.comments = comments;
         this.database = database;
+        this.loggedInUserId = loggedInUserId;
     }
 
     @NonNull
@@ -47,11 +50,33 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             holder.textViewRaterName.setText(raterUser.getNom());
 
             if (raterUser.getImageUri() != null && !raterUser.getImageUri().isEmpty()) {
-                Bitmap bitmap = BitmapFactory.decodeFile(raterUser.getImageUri());
-                holder.imageViewRater.setImageBitmap(bitmap);
+                // Set rater's profile image if available
+                holder.imageViewRater.setImageBitmap(BitmapFactory.decodeFile(raterUser.getImageUri()));
             } else {
                 holder.imageViewRater.setImageResource(android.R.color.transparent);
             }
+        }
+
+        // Show edit and delete icons only if the logged-in user is the author of the comment
+        if (comment.getRaterUserId() == loggedInUserId) {
+            holder.iconEditComment.setVisibility(View.VISIBLE);
+            holder.iconDeleteComment.setVisibility(View.VISIBLE);
+
+            holder.iconEditComment.setOnClickListener(v -> {
+                Intent intent = new Intent(context, EditCommentActivity.class);
+                intent.putExtra("commentId", comment.getId());
+                context.startActivity(intent);
+            });
+
+            holder.iconDeleteComment.setOnClickListener(v -> {
+                database.commentDao().deleteComment(comment);
+                Toast.makeText(context, "Comment deleted", Toast.LENGTH_SHORT).show();
+                comments.remove(position);
+                notifyItemRemoved(position);
+            });
+        } else {
+            holder.iconEditComment.setVisibility(View.GONE);
+            holder.iconDeleteComment.setVisibility(View.GONE);
         }
     }
 
@@ -64,12 +89,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         ImageView imageViewRater;
         TextView textViewRaterName;
         TextView textViewComment;
+        ImageView iconEditComment, iconDeleteComment;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
             imageViewRater = itemView.findViewById(R.id.imageViewRater);
             textViewRaterName = itemView.findViewById(R.id.textViewRaterName);
             textViewComment = itemView.findViewById(R.id.textViewComment);
+            iconEditComment = itemView.findViewById(R.id.iconEditComment);
+            iconDeleteComment = itemView.findViewById(R.id.iconDeleteComment);
         }
     }
 }

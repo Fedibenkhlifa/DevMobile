@@ -3,19 +3,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retour"
+        android:backgroundTint="#3333"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
     <RatingBar
         android:id="@+id/ratingBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:numStars="5"
-        android:stepSize="1.0" />
+        android:stepSize="1.0"
+            android:progressTint="@android:color/holo_orange_light" />
+
 
     <Button
         android:id="@+id/buttonSubmitRating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#2A9D8F"
+        android:textColor="#FFFFFF"
         android:text="Ajouter une note"
         android:layout_marginTop="16dp" />
 
@@ -30,6 +41,8 @@
         android:id="@+id/buttonSubmitComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#2A9D8F"
+        android:textColor="#FFFFFF"
         android:text="Ajouter un commentaire"
         android:layout_marginTop="16dp" />
 </LinearLayout>

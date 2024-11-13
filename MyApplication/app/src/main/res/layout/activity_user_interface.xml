@@ -28,7 +28,7 @@
           android:layout_weight="1"
           android:layout_marginEnd="8dp"
           android:text="Voir tous les services"
-          android:backgroundTint="@color/primaryColor"
+          android:backgroundTint="#333333"
           android:textColor="@android:color/white" />
 
       <Button
@@ -38,7 +38,7 @@
           android:layout_weight="1"
           android:layout_marginStart="8dp"
           android:text="Ajouter un service"
-          android:backgroundTint="@color/primaryColor"
+          android:backgroundTint="#333333"
           android:textColor="@android:color/white" />
     </LinearLayout>
 
@@ -56,7 +56,7 @@
           android:layout_weight="1"
           android:layout_marginEnd="8dp"
           android:text="Mes Réservations"
-          android:backgroundTint="@color/primaryColor"
+          android:backgroundTint="#333333"
           android:textColor="@android:color/white" />
 
       <Button
@@ -66,7 +66,7 @@
           android:layout_weight="1"
           android:layout_marginStart="8dp"
           android:text="Déconnexion"
-          android:backgroundTint="@color/primaryColor"
+          android:backgroundTint="#333333"
           android:textColor="@android:color/white" />
     </LinearLayout>
   </LinearLayout>

@@ -61,7 +61,7 @@
                 android:text="Détails"
                 android:textSize="12sp"
                 android:layout_marginBottom="8dp"
-                android:backgroundTint="?attr/colorPrimary"
+                android:backgroundTint="#2A9D8F"
                 android:textColor="@android:color/white" />
 
             <Button
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:text="Voir services"
                 android:textSize="12sp"
-                android:backgroundTint="?attr/colorPrimary"
+                android:backgroundTint="#2A9D8F"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 

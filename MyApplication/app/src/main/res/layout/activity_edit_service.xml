@@ -4,7 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-
+    <Button
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Retour"
+        android:backgroundTint="#3333"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp" />
     <EditText
         android:id="@+id/editTextServiceName"
         android:layout_width="match_parent"
@@ -30,6 +37,8 @@
         android:id="@+id/buttonSaveChanges"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enregistrer les modifications"
+        android:backgroundTint="#333333"
+        android:textColor="@android:color/white"
+    android:text="Enregistrer les modifications"
         android:layout_marginTop="16dp" />
 </LinearLayout>

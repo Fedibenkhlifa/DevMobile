@@ -37,4 +37,22 @@
             android:textSize="12sp"
             android:textColor="@color/black" />
     </LinearLayout>
+
+    <!-- Edit and Delete Icons -->
+    <ImageView
+        android:id="@+id/iconEditComment"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:src="@android:drawable/ic_menu_edit"
+        android:contentDescription="Edit Comment"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/iconDeleteComment"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@android:drawable/ic_delete"
+        android:contentDescription="Delete Comment"
+        android:visibility="gone" />
 </LinearLayout>

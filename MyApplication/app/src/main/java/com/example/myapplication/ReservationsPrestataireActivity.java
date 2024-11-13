@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.myapplication.database.AppDatabase;
@@ -10,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
+import android.widget.Button;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -29,7 +31,7 @@ public class ReservationsPrestataireActivity extends AppCompatActivity {
     private ReservationAdapter reservationAdapter;
     private AppDatabase database;
     private int userId;
-
+private Button buttonBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,12 +39,20 @@ public class ReservationsPrestataireActivity extends AppCompatActivity {
 
         recyclerViewReservations = findViewById(R.id.recyclerViewReservations);
         recyclerViewReservations.setLayoutManager(new LinearLayoutManager(this));
+        buttonBack = findViewById(R.id.buttonBack); // Initialize the back button
 
         database = AppDatabase.getAppDatabase(getApplicationContext());
         userId = getIntent().getIntExtra("userId", -1);
 
         loadReservations();
+        buttonBack.setOnClickListener(v -> {
+            Intent intent = new Intent(ReservationsPrestataireActivity.this, UserInterfaceActivity.class);
+            intent.putExtra("userId", userId); // Pass the rated user's ID back
+            startActivity(intent);
+            finish(); // Close the current activity
+        });
     }
+
 
     private void loadReservations() {
         List<ServicePres> userServices = database.servicePDao().getServicesByUserId(userId);

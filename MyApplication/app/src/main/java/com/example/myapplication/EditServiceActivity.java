@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,9 +13,10 @@ import com.example.myapplication.entity.ServicePres;
 public class EditServiceActivity extends AppCompatActivity {
 
     private EditText editTextServiceName, editTextServiceDescription, editTextServicePrice;
-    private Button buttonSaveChanges;
+    private Button buttonSaveChanges,buttonBack;
     private AppDatabase database;
     private ServicePres service;
+    private int ratedUserId; // ID of the user being rated
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class EditServiceActivity extends AppCompatActivity {
         editTextServiceDescription = findViewById(R.id.editTextServiceDescription);
         editTextServicePrice = findViewById(R.id.editTextServicePrice);
         buttonSaveChanges = findViewById(R.id.buttonSaveChanges);
+        buttonBack = findViewById(R.id.buttonBack); // Initialize the back button
 
         database = AppDatabase.getAppDatabase(this);
 
@@ -52,5 +55,11 @@ public class EditServiceActivity extends AppCompatActivity {
             setResult(RESULT_OK); // Indicate success
             finish(); // Close activity and return
         });
+        buttonBack.setOnClickListener(v -> {
+            Intent intent = new Intent(EditServiceActivity.this, UserInterfaceActivity.class);
+            intent.putExtra("userId", ratedUserId); // Pass the rated user's ID back
+            startActivity(intent);
+            finish(); // Close the current activity
+        });
     }
-}
+    }

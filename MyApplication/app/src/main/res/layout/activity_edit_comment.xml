@@ -1,9 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#f2f2f2">
+    android:padding="16dp">
     <Button
         android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
@@ -12,18 +12,26 @@
         android:backgroundTint="#3333"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="16dp" />
-    <TextView
+    <EditText
+        android:id="@+id/editTextComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mes Réservations"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp" />
+        android:hint="Edit your comment"
+        android:minHeight="100dp"
+        android:gravity="top"
+        android:padding="8dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewReservations"
+    <Button
+        android:id="@+id/buttonSaveComment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:layout_height="wrap_content"
+        android:text="Save" />
+
+    <Button
+        android:id="@+id/buttonCancelEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_marginTop="8dp" />
+
 </LinearLayout>

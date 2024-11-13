@@ -29,11 +29,12 @@ public class AddServiceActivity extends AppCompatActivity {
 
     private ImageView imageViewService;
     private Uri imageUri;
-    private Button buttonSelectImageService, buttonAddService;
+    private Button buttonSelectImageService, buttonAddService,buttonBack;
     private EditText editTextServiceName, editTextServiceDescription, editTextServicePrice;
     private Spinner spinnerCategory;
     private AppDatabase database;
     private SessionManager sessionManager;
+    private int ratedUserId; // ID of the user being rated
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class AddServiceActivity extends AppCompatActivity {
         editTextServiceDescription = findViewById(R.id.editTextServiceDescription);
         editTextServicePrice = findViewById(R.id.editTextServicePrice);
         spinnerCategory = findViewById(R.id.spinnerCategory);
+        buttonBack = findViewById(R.id.buttonBack); // Initialize the back button
 
         // Initialiser la base de données et le gestionnaire de session
         database = AppDatabase.getAppDatabase(getApplicationContext());
@@ -73,7 +75,14 @@ public class AddServiceActivity extends AppCompatActivity {
                 addService();
             }
         });
+        buttonBack.setOnClickListener(v -> {
+            Intent intent = new Intent(AddServiceActivity.this, UserInterfaceActivity.class);
+            intent.putExtra("userId", ratedUserId); // Pass the rated user's ID back
+            startActivity(intent);
+            finish(); // Close the current activity
+        });
     }
+
 
     private void openImageChooser() {
         Intent intent = new Intent();

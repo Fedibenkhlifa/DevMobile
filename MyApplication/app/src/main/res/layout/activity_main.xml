@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="Voir tous les services"
-            android:backgroundTint="@color/primaryColor"
+            android:backgroundTint="#333333"
             android:textColor="@android:color/white"
             android:layout_marginBottom="8dp" />
 
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="Mes Réservations"
-            android:backgroundTint="@color/primaryColor"
+            android:backgroundTint="#333333"
             android:textColor="@android:color/white"
             android:layout_marginBottom="8dp" />
 
@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:text="Logout"
-            android:backgroundTint="@color/primaryColor"
+            android:backgroundTint="#333333"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

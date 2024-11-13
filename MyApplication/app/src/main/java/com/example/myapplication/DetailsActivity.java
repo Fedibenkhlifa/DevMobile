@@ -25,18 +25,24 @@ public class DetailsActivity extends AppCompatActivity {
 
     private TextView textViewNom, textViewPrenom, textViewRating;
     private ImageView imageViewProfile;
-    private Button buttonAddComment;
+    private Button buttonAddComment,buttonBack;
     private AppDatabase database;
     private int userId;
     private RatingBar ratingBarAverage;
     private RecyclerView recyclerViewComments;
     private CommentAdapter commentAdapter;
+    private int loggedInUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
+        // Initialize SessionManager or any other method to get the logged-in user ID
+        SessionManager sessionManager = new SessionManager(this);
+        loggedInUserId = sessionManager.getUserId(); // Assuming this method returns the user ID
+
+        // Initialize views, database, etc.
         textViewNom = findViewById(R.id.textViewNom);
         textViewPrenom = findViewById(R.id.textViewPrenom);
         textViewRating = findViewById(R.id.textViewRating);
@@ -44,6 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
         buttonAddComment = findViewById(R.id.buttonAddComment);
         ratingBarAverage = findViewById(R.id.ratingBarAverage);
         recyclerViewComments = findViewById(R.id.recyclerViewComments);
+        buttonBack = findViewById(R.id.buttonBack); // Initialize the back button
 
         recyclerViewComments.setLayoutManager(new LinearLayoutManager(this));
 
@@ -51,14 +58,12 @@ public class DetailsActivity extends AppCompatActivity {
         database = AppDatabase.getAppDatabase(getApplicationContext());
 
         loadUserDetails();
+        buttonBack.setOnClickListener(v -> finish()); // Closes the current activity
 
-        buttonAddComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetailsActivity.this, AddCommentActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-            }
+        buttonAddComment.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailsActivity.this, AddCommentActivity.class);
+            intent.putExtra("userId", userId);
+            startActivity(intent);
         });
     }
 
@@ -68,7 +73,7 @@ public class DetailsActivity extends AppCompatActivity {
         loadUserDetails(); // Recharger les détails, y compris les évaluations et commentaires
     }
 
-    private void loadUserDetails() {
+    protected void loadUserDetails() {
         User user = database.userDao().getUserById(userId);
         if (user != null) {
             textViewNom.setText(user.getNom());
@@ -82,7 +87,6 @@ public class DetailsActivity extends AppCompatActivity {
                 imageViewProfile.setImageResource(android.R.color.transparent);
             }
 
-            // Charger les évaluations pour calculer la moyenne des notes
             List<Rating> ratings = database.ratingDao().getRatingsByUserId(userId);
             float averageRating = database.ratingDao().getAverageRatingByUserId(userId);
             int ratingCount = database.ratingDao().getRatingCountByUserId(userId);
@@ -90,10 +94,10 @@ public class DetailsActivity extends AppCompatActivity {
             ratingBarAverage.setRating(averageRating);
             textViewRating.setText(String.format("%.1f (%d évaluations)", averageRating, ratingCount));
 
-            // Charger les commentaires et configurer le CommentAdapter
             List<Comment> comments = database.commentDao().getCommentsByUserId(userId);
-            commentAdapter = new CommentAdapter(this, comments, database);
+            commentAdapter = new CommentAdapter(this, comments, database, loggedInUserId); // Pass loggedInUserId here
             recyclerViewComments.setAdapter(commentAdapter);
         }
     }
+
 }
