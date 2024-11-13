@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Retour"
-        android:backgroundTint="#3333"
+        android:backgroundTint="#333333"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="16dp" />
     <EditText
@@ -25,13 +25,18 @@
         android:id="@+id/buttonSaveComment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#333333"
+        android:textColor="@android:color/white"
         android:text="Save" />
 
     <Button
         android:id="@+id/buttonCancelEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#333333"
+        android:textColor="@android:color/white"
         android:text="Cancel"
         android:layout_marginTop="8dp" />
+
 
 </LinearLayout>

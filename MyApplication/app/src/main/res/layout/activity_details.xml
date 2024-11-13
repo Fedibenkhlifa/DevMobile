@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Retour"
-            android:backgroundTint="#3333"
+            android:backgroundTint="#333333"
             android:textColor="@android:color/white"
             android:layout_marginBottom="8dp" />
         <!-- Profile Section -->
@@ -86,12 +86,9 @@
             android:id="@+id/ratingBarAverage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:numStars="5"
-            android:stepSize="0.5"
-            android:isIndicator="true"
-            android:progressTint="@android:color/holo_orange_light"
-        android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp" />
+            android:stepSize="1.0" />
 
         <!-- Comments Section -->
         <LinearLayout

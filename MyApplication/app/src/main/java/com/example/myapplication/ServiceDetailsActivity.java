@@ -106,8 +106,12 @@ public class ServiceDetailsActivity extends AppCompatActivity {
                 },
                 year, month, day);
 
+        // Définir la date minimale (date actuelle)
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
+
         datePickerDialog.show();
     }
+
 
     private void reserveService(ServicePres service) {
         if (textViewReservationDate.getText().equals("Select Reservation Date")) {

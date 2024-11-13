@@ -19,7 +19,7 @@ public class UserInterfaceActivity extends AppCompatActivity {
     private ServiceAdapterPr serviceAdapter;
     private AppDatabase database;
     private SessionManager sessionManager;
-    private Button buttonViewAllServices, buttonAddService, buttonLogout, buttonMyReservations;
+    private Button buttonViewAllServices, buttonAddService, buttonLogout, buttonMyReservations, buttonCheckProfile;
     private static final int REQUEST_CODE_ADD_SERVICE = 1;
     public static final int REQUEST_CODE_EDIT_SERVICE = 2;
 
@@ -34,7 +34,8 @@ public class UserInterfaceActivity extends AppCompatActivity {
         buttonViewAllServices = findViewById(R.id.buttonViewAllServices);
         buttonAddService = findViewById(R.id.buttonAddService);
         buttonLogout = findViewById(R.id.buttonLogout);
-        buttonMyReservations = findViewById(R.id.buttonMyReservations);  // New button for "Mes Réservations"
+        buttonMyReservations = findViewById(R.id.buttonMyReservations);
+        buttonCheckProfile = findViewById(R.id.buttonCheckProfile); // New button for "Check Profile"
 
         sessionManager = new SessionManager(this);
         database = AppDatabase.getAppDatabase(getApplicationContext());
@@ -82,7 +83,17 @@ public class UserInterfaceActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(UserInterfaceActivity.this, ReservationsPrestataireActivity.class);
-                intent.putExtra("userId", userId);  // Pass the logged-in user's ID to the new activity
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+            }
+        });
+
+        // Handle Check Profile button click
+        buttonCheckProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserInterfaceActivity.this, ProfilePres.class);
+                intent.putExtra("userId", userId); // Pass the logged-in user's ID
                 startActivity(intent);
             }
         });
@@ -94,7 +105,7 @@ public class UserInterfaceActivity extends AppCompatActivity {
             serviceAdapter = new ServiceAdapterPr(this, serviceList, database);
             recyclerViewServices.setAdapter(serviceAdapter);
         } else {
-            serviceAdapter.updateServiceList(serviceList); // Met à jour la liste des services
+            serviceAdapter.updateServiceList(serviceList);
         }
     }
 
@@ -103,9 +114,7 @@ public class UserInterfaceActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if ((requestCode == REQUEST_CODE_ADD_SERVICE || requestCode == REQUEST_CODE_EDIT_SERVICE) && resultCode == RESULT_OK) {
             int userId = sessionManager.getUserId();
-            loadUserServices(userId); // Recharge les services
+            loadUserServices(userId);
         }
     }
-
-
 }

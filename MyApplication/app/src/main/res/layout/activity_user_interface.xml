@@ -5,13 +5,23 @@
     android:padding="16dp"
     android:background="#f2f2f2">
 
-  <!-- Section for Buttons: Viewing, Adding Services, Logout, and My Reservations -->
+  <!-- Section for Buttons: Check Profile, Viewing, Adding Services, Logout, and My Reservations -->
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical"
       android:gravity="center"
       android:layout_marginBottom="16dp">
+
+    <!-- New Button for Check Profile -->
+    <Button
+        android:id="@+id/buttonCheckProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Voir Profil"
+        android:backgroundTint="#333333"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="8dp" />
 
     <!-- First Row: View All Services and Add Service -->
     <LinearLayout
