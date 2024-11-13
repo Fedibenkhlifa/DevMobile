@@ -21,6 +21,7 @@ public class UserInterfaceActivity extends AppCompatActivity {
     private SessionManager sessionManager;
     private Button buttonViewAllServices, buttonAddService, buttonLogout, buttonMyReservations;
     private static final int REQUEST_CODE_ADD_SERVICE = 1;
+    public static final int REQUEST_CODE_EDIT_SERVICE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,18 +90,22 @@ public class UserInterfaceActivity extends AppCompatActivity {
 
     private void loadUserServices(int userId) {
         List<ServicePres> serviceList = database.servicePDao().getServicesByUserId(userId);
-        serviceAdapter = new ServiceAdapterPr(this, serviceList, database);
-        recyclerViewServices.setAdapter(serviceAdapter);
+        if (serviceAdapter == null) {
+            serviceAdapter = new ServiceAdapterPr(this, serviceList, database);
+            recyclerViewServices.setAdapter(serviceAdapter);
+        } else {
+            serviceAdapter.updateServiceList(serviceList); // Met à jour la liste des services
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == REQUEST_CODE_ADD_SERVICE && resultCode == RESULT_OK) { // Ensure consistent request code usage
+        if ((requestCode == REQUEST_CODE_ADD_SERVICE || requestCode == REQUEST_CODE_EDIT_SERVICE) && resultCode == RESULT_OK) {
             int userId = sessionManager.getUserId();
-            loadUserServices(userId); // Reload the list of services to reflect changes
+            loadUserServices(userId); // Recharge les services
         }
     }
+
 
 }

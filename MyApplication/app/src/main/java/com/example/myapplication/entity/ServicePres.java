@@ -1,11 +1,9 @@
 package com.example.myapplication.entity;
 
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "servicepr")
-
 public class ServicePres {
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -13,16 +11,19 @@ public class ServicePres {
     private String description;
     private ServiceCategory categorie;
     private double prix;
-    private int userId; // Id du prestataire (clé étrangère vers User)
+    private int userId; // Id du prestataire
+    private String imagePath; // Chemin de l'image
+
     public ServicePres() {
     }
 
-    public ServicePres(String nom, String description, ServiceCategory categorie, double prix, int userId) {
+    public ServicePres(String nom, String description, ServiceCategory categorie, double prix, int userId, String imagePath) {
         this.nom = nom;
         this.description = description;
         this.categorie = categorie;
         this.prix = prix;
         this.userId = userId;
+        this.imagePath = imagePath;
     }
 
     // Getters et Setters
@@ -38,4 +39,6 @@ public class ServicePres {
     public void setPrix(double prix) { this.prix = prix; }
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
+    public String getImagePath() { return imagePath; }
+    public void setImagePath(String imagePath) { this.imagePath = imagePath; }
 }

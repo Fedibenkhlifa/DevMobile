@@ -1,7 +1,12 @@
 package com.example.myapplication;
 
+
+
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.database.AppDatabase;
 import com.example.myapplication.entity.ServicePres;
 
+import java.io.File;
 import java.util.List;
 
 public class ServiceAdapterPr extends RecyclerView.Adapter<ServiceAdapterPr.ServiceViewHolder> {
@@ -43,6 +49,17 @@ public class ServiceAdapterPr extends RecyclerView.Adapter<ServiceAdapterPr.Serv
         holder.textViewServiceName.setText(service.getNom());
         holder.textViewServiceDescription.setText(service.getDescription());
         holder.textViewServicePrice.setText(String.format("$%.2f", service.getPrix()));
+        if (service.getImagePath() != null) {
+            File imageFile = new File(service.getImagePath());
+            if (imageFile.exists()) {
+                Bitmap bitmap = BitmapFactory.decodeFile(service.getImagePath());
+                holder.imageViewService.setImageBitmap(bitmap);
+            } else {
+                holder.imageViewService.setImageResource(R.drawable.ic_launcher_foreground); // Image par défaut
+            }
+        } else {
+            holder.imageViewService.setImageResource(R.drawable.ic_launcher_foreground); // Image par défaut si pas d'image
+        }
 
         // Détails Button
         holder.buttonServiceDetails.setOnClickListener(v -> {
@@ -52,15 +69,17 @@ public class ServiceAdapterPr extends RecyclerView.Adapter<ServiceAdapterPr.Serv
         });
 
         // Modifier Button
+        // Modifier Button
         holder.buttonEditService.setOnClickListener(v -> {
             Intent intent = new Intent(context, EditServiceActivity.class);
             intent.putExtra("serviceId", service.getId());
 
-            // Check if the context is an instance of UserInterfaceActivity to use startActivityForResult
             if (context instanceof UserInterfaceActivity) {
-                ((UserInterfaceActivity) context).startActivityForResult(intent, 100); // 100 is a request code
+                ((UserInterfaceActivity) context).startActivityForResult(intent, UserInterfaceActivity.REQUEST_CODE_EDIT_SERVICE);
             }
         });
+
+
 
 
         // Supprimer Button
@@ -71,6 +90,11 @@ public class ServiceAdapterPr extends RecyclerView.Adapter<ServiceAdapterPr.Serv
             notifyItemRangeChanged(position, serviceList.size());
             Toast.makeText(context, "Service supprimé", Toast.LENGTH_SHORT).show();
         });
+    }
+    public void updateServiceList(List<ServicePres> newServiceList) {
+        this.serviceList.clear();
+        this.serviceList.addAll(newServiceList);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -85,6 +109,7 @@ public class ServiceAdapterPr extends RecyclerView.Adapter<ServiceAdapterPr.Serv
 
         public ServiceViewHolder(@NonNull View itemView) {
             super(itemView);
+            imageViewService = itemView.findViewById(R.id.imageViewService); // Vérifiez que cet ID est correct
             textViewServiceName = itemView.findViewById(R.id.textViewServiceName);
             textViewServiceDescription = itemView.findViewById(R.id.textViewServiceDescription);
             textViewServicePrice = itemView.findViewById(R.id.textViewServicePrice);
@@ -93,4 +118,5 @@ public class ServiceAdapterPr extends RecyclerView.Adapter<ServiceAdapterPr.Serv
             buttonDeleteService = itemView.findViewById(R.id.buttonDeleteService);
         }
     }
+
 }

@@ -1,22 +1,37 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.database.AppDatabase;
 import com.example.myapplication.entity.ServiceCategory;
 import com.example.myapplication.entity.ServicePres;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
 public class AddServiceActivity extends AppCompatActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 2;
+
+    private ImageView imageViewService;
+    private Uri imageUri;
+    private Button buttonSelectImageService, buttonAddService;
     private EditText editTextServiceName, editTextServiceDescription, editTextServicePrice;
     private Spinner spinnerCategory;
-    private Button buttonAddService;
     private AppDatabase database;
     private SessionManager sessionManager;
 
@@ -25,25 +40,77 @@ public class AddServiceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_service);
 
+        // Initialisation des vues
+        imageViewService = findViewById(R.id.imageViewService);
+        buttonSelectImageService = findViewById(R.id.buttonSelectImageService);
+        buttonAddService = findViewById(R.id.buttonAddService);
         editTextServiceName = findViewById(R.id.editTextServiceName);
         editTextServiceDescription = findViewById(R.id.editTextServiceDescription);
         editTextServicePrice = findViewById(R.id.editTextServicePrice);
         spinnerCategory = findViewById(R.id.spinnerCategory);
-        buttonAddService = findViewById(R.id.buttonAddService);
 
+        // Initialiser la base de données et le gestionnaire de session
         database = AppDatabase.getAppDatabase(getApplicationContext());
         sessionManager = new SessionManager(this);
 
+        // Configuration de la sélection de l'image
+        buttonSelectImageService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openImageChooser();
+            }
+        });
+
+        // Configurer le spinner pour les catégories de service
         ArrayAdapter<ServiceCategory> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, ServiceCategory.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(categoryAdapter);
 
+        // Configurer le bouton d'ajout de service
         buttonAddService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addService();
             }
         });
+    }
+
+    private void openImageChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Sélectionnez une image"), PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            imageViewService.setImageURI(imageUri);
+        }
+    }
+
+    private String saveImageToInternalStorage(Uri imageUri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+            File directory = new File(getFilesDir(), "service_images");
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+
+            File file = new File(directory, System.currentTimeMillis() + ".jpg");
+            FileOutputStream fos = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.close();
+
+            return file.getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private void addService() {
@@ -65,21 +132,21 @@ public class AddServiceActivity extends AppCompatActivity {
             return;
         }
 
-        // Get userId from session
+        // Récupérer l'ID de l'utilisateur à partir de la session
         int userId = sessionManager.getUserId();
-
         if (userId == -1) {
             Toast.makeText(this, "Erreur d'identification utilisateur", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Create and insert service
-        ServicePres service = new ServicePres(nom, description, categorie, prix, userId);
+        // Enregistrer l'image
+        String imagePath = imageUri != null ? saveImageToInternalStorage(imageUri) : null;
+
+        // Créer un service avec l'image
+        ServicePres service = new ServicePres(nom, description, categorie, prix, userId, imagePath);
         database.servicePDao().insertService(service);
 
         Toast.makeText(this, "Service ajouté avec succès!", Toast.LENGTH_SHORT).show();
-
-        // Indicate the activity finished successfully to refresh the service list
         setResult(RESULT_OK);
         finish();
     }

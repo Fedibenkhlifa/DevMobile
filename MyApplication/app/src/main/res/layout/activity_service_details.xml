@@ -21,16 +21,31 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Service Name -->
-            <TextView
-                android:id="@+id/textViewServiceName"
+            <!-- Section pour les informations de l'utilisateur -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Service Name"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_marginBottom="8dp" />
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/imageViewUser"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/ic_launcher_foreground" />
+
+                <TextView
+                    android:id="@+id/textViewUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nom de l'utilisateur"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
+            </LinearLayout>
 
             <!-- Divider -->
             <View
@@ -39,7 +54,26 @@
                 android:background="@color/gray_light"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Service Description -->
+            <!-- Section pour les informations du service -->
+            <ImageView
+                android:id="@+id/imageViewService"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Nom du service -->
+            <TextView
+                android:id="@+id/textViewServiceName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nom du Service"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Description du service -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,11 +92,11 @@
                 android:textColor="@color/gray_dark"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Service Category -->
+            <!-- Catégorie du service -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category"
+                android:text="Catégorie"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -77,11 +111,11 @@
                 android:textColor="@color/gray_dark"
                 android:layout_marginBottom="12dp" />
 
-            <!-- Service Price -->
+            <!-- Prix du service -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price"
+                android:text="Prix"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
@@ -96,7 +130,7 @@
                 android:textColor="@color/primaryColor"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Reservation Date and Button -->
+            <!-- Date de réservation et bouton de réservation -->
             <TextView
                 android:id="@+id/textViewReservationDate"
                 android:layout_width="wrap_content"
@@ -114,10 +148,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Reserve Service"
+                android:text="Réserver le service"
                 android:backgroundTint="@color/primaryColor"
                 android:textColor="@android:color/white" />
-
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </ScrollView>
